@@ -206,7 +206,7 @@ def main():
         print(f"Loss: {val_loss} | mIOU: {val_miou}")
 
         writer.add_scalar("Validation/Loss", val_loss, epoch)
-        writer.add_scalar("Validation/mIOU", mious_val, epoch)
+        writer.add_scalar("Validation/mIOU", val_miou, epoch)
 
         if len(losses_val) > 0 and val_loss < min(losses_val):
             print("New minimum loss — model saved")
