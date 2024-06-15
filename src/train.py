@@ -212,7 +212,7 @@ def main():
             print("New minimum loss — model saved")
             torch.save(model.state_dict(), os.path.join(model_dir, f"{backbone}_backbone_lowest_loss.pth"))
 
-        if len(mious_val) > 0 and mious_val > max(mious_val):
+        if len(mious_val) > 0 and val_miou > max(mious_val):
             print("New maximum mIOU - model saved")
             torch.save(model.state_dict(), os.path.join(model_dir, f"{backbone}_backbone_highest_miou.pth"))
 
