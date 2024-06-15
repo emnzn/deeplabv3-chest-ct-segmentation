@@ -151,8 +151,10 @@ def main():
     args = get_args(arg_dir)
     save_args(args, results_dir)
 
-    num_classes = args["num_classes"]
-    model_dir = os.path.join("..", "assets", "models")
+    model_dir = os.path.join("..", "assets", "models", id)
+
+    if not os.path.isdir(model_dir):
+        os.makedirs(model_dir)
 
     train_img_dir = os.path.join(data_dir, "train", "images")
     train_mask_dir = os.path.join(data_dir, "train", "masks")
@@ -171,61 +173,54 @@ def main():
         img_dir=val_img_dir, mask_dir=val_mask_dir,
         mean=mean, std=std
     )
-
-    epochs = args["epochs"]
-    batch_size =  args["batch_size"]
-    backbone = args["backbone"]
-
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    lr = args["learning_rate"]
-    weight_decay = args["weight_decay"]
 
-    train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
-    val_loader = DataLoader(dataset=val_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
+    train_loader = DataLoader(dataset=train_dataset, batch_size=args["batch_size"], shuffle=True, drop_last=False)
+    val_loader = DataLoader(dataset=val_dataset, batch_size=args["batch_size"], shuffle=False, drop_last=False)
 
-    model = get_network(backbone, num_classes).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+    model = get_network(args["backbone"], args["num_classes"]).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args["lr"], weight_decay=args["weight_decay"])
     criterion = torch.nn.CrossEntropyLoss()
 
     losses_val, mious_val = [], []
 
-    for epoch in range(1, epochs + 1):
-        print(f"Epoch [{epoch}/{epochs}]")
+    for epoch in range(1, args["epochs"] + 1):
+        print(f"Epoch [{epoch}/{args["epochs"]}]")
 
-        train_loss, train_miou = train(model, train_loader, optimizer, criterion, device, num_classes)
+        train_loss, train_miou = train(model, train_loader, optimizer, criterion, device, args["num_classes"])
 
         print("\nTrain Statistics:")
-        print(f"Loss: {train_loss} | mIOU: {train_miou}")
+        print(f"Loss: {train_loss} | mIOU: {train_miou:.4f}")
 
         writer.add_scalar("Train/Loss", train_loss, epoch)
         writer.add_scalar("Train/mIOU", train_miou, epoch)
 
-        val_loss, val_miou = validate(model, val_loader, criterion, device, num_classes)
+        val_loss, val_miou = validate(model, val_loader, criterion, device, args["num_classes"])
 
         print("\nValidation Statistics:")
-        print(f"Loss: {val_loss} | mIOU: {val_miou}")
+        print(f"Loss: {val_loss} | mIOU: {val_miou:.4f}")
 
         writer.add_scalar("Validation/Loss", val_loss, epoch)
         writer.add_scalar("Validation/mIOU", val_miou, epoch)
 
         if len(losses_val) > 0 and val_loss < min(losses_val):
             print("New minimum loss — model saved")
-            torch.save(model.state_dict(), os.path.join(model_dir, f"{backbone}_backbone_lowest_loss.pth"))
+            torch.save(model.state_dict(), os.path.join(model_dir, f"{args["backbone"]}_backbone_lowest_loss.pth"))
 
         if len(mious_val) > 0 and val_miou > max(mious_val):
             print("New maximum mIOU - model saved")
-            torch.save(model.state_dict(), os.path.join(model_dir, f"{backbone}_backbone_highest_miou.pth"))
+            torch.save(model.state_dict(), os.path.join(model_dir, f"{args["backbone"]}_backbone_highest_miou.pth"))
 
         if epoch % 10 == 0:
             print("Latest model updated")
-            torch.save(model.state_dict, os.path.join(model_dir, f"{backbone}_backbone_latest_model.pth"))
+            torch.save(model.state_dict, os.path.join(model_dir, f"{args["backbone"]}_backbone_latest_model.pth"))
 
         losses_val.append(val_loss)
         mious_val.append(val_miou)
 
-        print("_________________________________________\n")
+        print("___________________________________________________________________\n")
 
-    torch.save(model.state_dict, os.path.join(model_dir, f"{backbone}_backbone_latest_model.pth"))
+    torch.save(model.state_dict, os.path.join(model_dir, f"{args["backbone"]}_backbone_latest_model.pth"))
 
 if __name__ == "__main__":
     main()

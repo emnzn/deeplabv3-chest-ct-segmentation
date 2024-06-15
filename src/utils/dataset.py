@@ -24,6 +24,9 @@ class CustomDataset(Dataset):
     std: float
         The pixel-level standard deviation of all images in the training set for normalization.
 
+    inference: bool
+        Whether to use the dataloader in inference mode. (Default: False)
+
     Returns
     -------
     img: torch.Tensor
@@ -33,6 +36,10 @@ class CustomDataset(Dataset):
     mask: torch.Tensor
         The RGB mask tensor of shape (3, height, width).
         The range of pixel values for this tensor will be from 0 to 1.
+
+    img_name: str
+        The name of the img.
+        This will be returned if the dataset class is initialized in inference mode.
 
     Attributes
     ----------
@@ -49,11 +56,16 @@ class CustomDataset(Dataset):
         The error message will provide a list of images without corresponding masks and vice versa.
     """
 
-    def __init__(self, img_dir: str, mask_dir: str, mean: float, std: float):
+    def __init__(
+            self, img_dir: str, mask_dir: str, 
+            mean: float, std: float, 
+            inference: bool=False) -> None:
+        
         self.img_dir = img_dir
         self.mask_dir = mask_dir
         self.mean = mean
         self.std = std
+        self.inference = inference
 
         self.imgs: List[str] = os.listdir(img_dir)
         self.masks: List[str] = os.listdir(mask_dir)
@@ -61,7 +73,7 @@ class CustomDataset(Dataset):
         if len(self.imgs) != len(self.masks):
             self.mismatch_error()
             
-    def mismatch_error(self):
+    def mismatch_error(self) -> None:
         error_message = "The number of images and masks do not match.\n"
         unmatched_imgs = [img for img in self.imgs if img not in self.masks]
         unmatched_masks = [mask for mask in self.masks if mask not in self.imgs]
@@ -101,4 +113,8 @@ class CustomDataset(Dataset):
 
         img, mask = preprocess(img), transforms.ToTensor()(mask)
 
-        return img, mask
+        if self.inference:
+            return img, mask, img_name
+        
+        else:
+            return img, mask

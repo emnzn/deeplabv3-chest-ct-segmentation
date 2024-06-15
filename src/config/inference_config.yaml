@@ -1,0 +1,7 @@
+# Configuration
+
+num_classes: 4
+batch_size: 8
+backbone: "resnet50"
+id: "06-15-2024-13:00"
+weights: "resnet50_backbone_highest_miou.pth"
