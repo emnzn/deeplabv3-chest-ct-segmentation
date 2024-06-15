@@ -8,7 +8,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data.dataloader import DataLoader
 from torchvision.models.segmentation.deeplabv3 import DeepLabV3
 from utils import map_to_class, get_iou, compute_stats, CustomDataset, \
-    get_network, get_args, save_args
+    get_network, get_args, save_args, set_seed
 
 def train(
         model: DeepLabV3,
@@ -150,7 +150,8 @@ def main():
 
     args = get_args(arg_dir)
     save_args(args, results_dir)
-
+    set_seed(args["seed"])
+    
     model_dir = os.path.join("..", "assets", "models", id)
 
     if not os.path.isdir(model_dir):
