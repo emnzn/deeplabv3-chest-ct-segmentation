@@ -66,17 +66,17 @@ def run_inference(
             logits = model(img)["out"]
             probabilities = F.softmax(logits, dim=1)
 
-            pred = torch.argmax(probabilities, dim=1).cpu().numpy()
+            pred = torch.argmax(probabilities, dim=1)
 
             results_table["img_name"].extend(img_name)
-            results_table["prediction"].extend(pred)
+            results_table["prediction"].extend(pred.cpu().numpy())
 
             for i in range(len(img_name)):
                 loss = criterion(logits[i].unsqueeze(0), mapped_mask[i].unsqueeze(0))
                 miou = get_iou(pred[i], mapped_mask[i], num_classes, device)
 
-                results_table["loss"].append(loss)
-                results_table["miou"].append(miou)
+                results_table["loss"].append(loss.cpu().item())
+                results_table["miou"].append(miou.cpu().item())
 
             running_loss += loss.detach().cpu().item()
             running_miou += miou.detach().cpu().item()
@@ -95,10 +95,7 @@ def main():
     results_dir = os.path.join("..", "assets", "inference", args["id"])
     model_dir = os.path.join("..", "assets", "models", args["id"])
 
-    weights = torch.load(os.path.join(model_dir, args["weights"]), map_location=torch.device("mps"))
-
     train_img_dir = os.path.join(data_dir, "train", "images")
-
     test_img_dir = os.path.join(data_dir, "test", "images")
     test_mask_dir = os.path.join(data_dir, "test", "masks")
 
@@ -110,6 +107,7 @@ def main():
     )
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    weights = torch.load(os.path.join(model_dir, args["weights"]), map_location=torch.device(device))
 
     test_loader = DataLoader(dataset=test_dataset, batch_size=args["batch_size"], shuffle=False, drop_last=False)
 

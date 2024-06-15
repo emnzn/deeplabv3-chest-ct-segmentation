@@ -22,4 +22,7 @@ def save_inference(
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
+    print("prediction", df["prediction"].shape)
+    df["prediction"] = df["prediction"].map(lambda x: x.flatten())
+
     df.to_parquet(os.path.join(save_path, "inference_results.parquet"), index=False)
