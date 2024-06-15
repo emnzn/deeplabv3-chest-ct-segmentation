@@ -1,10 +1,11 @@
 import os
 import pandas as pd
-from tqdm import tqdm
-from pathlib import Path
-import matplotlib.pyplot as plt
+from typing import Dict, List
 
-def save_inference(results_table, dest_dir):
+def save_inference(
+        results_table: Dict[str, List], 
+        dest_dir: str
+        ) -> None:
     """
     Parameters
     ----------
@@ -14,11 +15,11 @@ def save_inference(results_table, dest_dir):
     dest_dir: str
         The inference directory where the results will be saved.
     """
-    
+
     df = pd.DataFrame(results_table)
     save_path = os.path.join(dest_dir, "tables")
 
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
-    df.to_parquet(os.path.join(save_path, "inference_results.parquet", index=False))
+    df.to_parquet(os.path.join(save_path, "inference_results.parquet"), index=False)

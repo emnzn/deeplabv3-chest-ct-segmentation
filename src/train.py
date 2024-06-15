@@ -181,6 +181,7 @@ def main():
     model = get_network(args["backbone"], args["num_classes"]).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args["lr"], weight_decay=args["weight_decay"])
     criterion = torch.nn.CrossEntropyLoss()
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", patience=10)
 
     losses_val, mious_val = [], []
 
@@ -217,6 +218,8 @@ def main():
 
         losses_val.append(val_loss)
         mious_val.append(val_miou)
+        
+        scheduler.step(val_loss)
 
         print("___________________________________________________________________\n")
 

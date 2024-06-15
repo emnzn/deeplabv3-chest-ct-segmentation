@@ -66,8 +66,9 @@ def run_inference(
             logits = model(img)["out"]
             probabilities = F.softmax(logits, dim=1)
 
-            pred = torch.argmax(probabilities, dim=1)
+            pred = torch.argmax(probabilities, dim=1).cpu().numpy()
 
+            results_table["img_name"].extend(img_name)
             results_table["prediction"].extend(pred)
 
             for i in range(len(img_name)):
@@ -108,8 +109,7 @@ def main():
         mean=mean, std=std, inference=True
     )
 
-    # device = "cuda" if torch.cuda.is_available() else "cpu"
-    device = "mps"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     test_loader = DataLoader(dataset=test_dataset, batch_size=args["batch_size"], shuffle=False, drop_last=False)
 
@@ -122,7 +122,7 @@ def main():
 
     save_inference(results_table, results_dir)
 
-    print(f"Inference Results:")
+    print(f"\nInference Results:")
     print(f"Loss: {loss} | mIOU: {miou:.4f}")
 
 if __name__ == "__main__":
