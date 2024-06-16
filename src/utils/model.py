@@ -41,5 +41,8 @@ def get_network(backbone: str, num_classes: int) -> DeepLabV3:
         
     else:
         raise ValueError("Backbone must be one of ['resnet50', 'resnet101']")
+    
+    if torch.cuda.device_count() > 1:
+        model = torch.nn.DataParallel(model)
 
     return model
