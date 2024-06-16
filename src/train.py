@@ -180,7 +180,7 @@ def main():
     val_loader = DataLoader(dataset=val_dataset, batch_size=args["batch_size"], shuffle=False, drop_last=False)
 
     model = get_network(args["backbone"], args["num_classes"]).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=args["lr"], weight_decay=args["weight_decay"])
+    optimizer = torch.optim.Adam(model.parameters(), lr=args["learning_rate"], weight_decay=args["weight_decay"])
     criterion = torch.nn.CrossEntropyLoss()
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", patience=10)
 
