@@ -3,3 +3,4 @@ data/**/*.jpg
 *.pth
 *.parquet
 .DS_Store
+*.sh
