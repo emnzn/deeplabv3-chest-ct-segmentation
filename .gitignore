@@ -1,6 +1,6 @@
-*__pycache__*
-data/**/*.jpg
+*.sh
 *.pth
 *.parquet
 .DS_Store
-*.sh
+*__pycache__*
+data/**/*.jpg
