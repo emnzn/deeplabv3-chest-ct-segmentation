@@ -192,7 +192,7 @@ def main():
         train_loss, train_miou = train(model, train_loader, optimizer, criterion, device, args["num_classes"])
 
         print("\nTrain Statistics:")
-        print(f"Loss: {train_loss} | mIOU: {train_miou:.4f}")
+        print(f"Loss: {train_loss:.4f} | mIOU: {train_miou:.4f}")
 
         writer.add_scalar("Train/Loss", train_loss, epoch)
         writer.add_scalar("Train/mIOU", train_miou, epoch)
@@ -200,7 +200,7 @@ def main():
         val_loss, val_miou = validate(model, val_loader, criterion, device, args["num_classes"])
 
         print("\nValidation Statistics:")
-        print(f"Loss: {val_loss} | mIOU: {val_miou:.4f}")
+        print(f"Loss: {val_loss:.4f} | mIOU: {val_miou:.4f}")
 
         writer.add_scalar("Validation/Loss", val_loss, epoch)
         writer.add_scalar("Validation/mIOU", val_miou, epoch)
