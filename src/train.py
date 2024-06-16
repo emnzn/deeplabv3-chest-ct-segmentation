@@ -187,7 +187,7 @@ def main():
     losses_val, mious_val = [], []
 
     for epoch in range(1, args["epochs"] + 1):
-        print(f"Epoch [{epoch}/{args["epochs"]}]")
+        print(f"Epoch [{epoch}/{args['epochs']}]")
 
         train_loss, train_miou = train(model, train_loader, optimizer, criterion, device, args["num_classes"])
 
@@ -207,15 +207,15 @@ def main():
 
         if len(losses_val) > 0 and val_loss < min(losses_val):
             print("New minimum loss — model saved")
-            torch.save(model.state_dict(), os.path.join(model_dir, f"{args["backbone"]}_backbone_lowest_loss.pth"))
+            torch.save(model.state_dict(), os.path.join(model_dir, f"{args['backbone']}_backbone_lowest_loss.pth"))
 
         if len(mious_val) > 0 and val_miou > max(mious_val):
             print("New maximum mIOU - model saved")
-            torch.save(model.state_dict(), os.path.join(model_dir, f"{args["backbone"]}_backbone_highest_miou.pth"))
+            torch.save(model.state_dict(), os.path.join(model_dir, f"{args['backbone']}_backbone_highest_miou.pth"))
 
         if epoch % 10 == 0:
             print("Latest model updated")
-            torch.save(model.state_dict, os.path.join(model_dir, f"{args["backbone"]}_backbone_latest_model.pth"))
+            torch.save(model.state_dict, os.path.join(model_dir, f"{args['backbone']}_backbone_latest_model.pth"))
 
         losses_val.append(val_loss)
         mious_val.append(val_miou)
@@ -224,7 +224,7 @@ def main():
 
         print("___________________________________________________________________\n")
 
-    torch.save(model.state_dict, os.path.join(model_dir, f"{args["backbone"]}_backbone_latest_model.pth"))
+    torch.save(model.state_dict, os.path.join(model_dir, f"{args['backbone']}_backbone_latest_model.pth"))
 
 if __name__ == "__main__":
     main()
