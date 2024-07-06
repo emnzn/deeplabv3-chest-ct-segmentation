@@ -121,7 +121,7 @@ def main():
     save_inference(results_table, results_dir)
 
     print(f"\nInference Results:")
-    print(f"Loss: {loss} | mIOU: {miou:.4f}")
+    print(f"Loss: {loss:.4f} | mIOU: {miou:.4f}")
 
 if __name__ == "__main__":
     main()
