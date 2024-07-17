@@ -80,9 +80,8 @@ python inference.py
 ```
 
 ## Results
-<div style="text-align: center; font-size: 1.5em; font-weight: bold; margin: 20px 0;">
-    mIOU: 92.8%
-</div>
+### mIOU: 92.8%
+
 
 ![Prediction 1](assets/figures/prediction_1.png)
 ![Prediction 2](assets/figures/prediction_2.png)
