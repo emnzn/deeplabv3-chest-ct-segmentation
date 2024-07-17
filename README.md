@@ -79,9 +79,15 @@ python train.py
 python inference.py
 ```
 
+## Tensorboard
+From the `src` directory, run:
+
+```bash
+tensorboard --logdir runs
+```
+
 ## Results
 ### mIOU: 92.8%
-
 
 ![Prediction 1](assets/figures/prediction_1.png)
 ![Prediction 2](assets/figures/prediction_2.png)
