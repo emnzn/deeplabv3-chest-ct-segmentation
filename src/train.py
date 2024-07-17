@@ -88,32 +88,6 @@ def validate(
     
     """
     Performs model validation for a given epoch.
-
-    Parameters
-    ----------
-    model: torchvision.models.segmentation.deeplabv3.DeepLabV3
-        The DeepLabV3 model to be trained.
-
-    dataloader: torch.utils.data.dataloader.DataLoader
-        The dataloader to extract minibatches of images and masks.
-
-    criterion: torch.nn.modules.loss
-        The loss function.
-        CrossEntropyLoss was used in this project.
-
-    device: str
-        One of ['cpu', 'cuda'].
-
-    num_classes: int
-        The number of target classes.
-
-    Returns
-    -------
-    epoch_loss: float
-        The loss for the epoch.
-
-    epoch_miou: float
-        The mean Intersection over Union (mIOU) for the epoch.
     """
 
     model = model.to(device)
