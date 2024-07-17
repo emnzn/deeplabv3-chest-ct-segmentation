@@ -1,5 +1,6 @@
 *.sh
 *.pth
+*.ipynb
 *.parquet
 .DS_Store
 *__pycache__*
