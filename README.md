@@ -13,7 +13,7 @@
 
 Original data source: https://www.kaggle.com/datasets/polomarco/chest-ct-segmentation
 
-My train-test split can be accessed [here](https://drive.google.com/file/d/1unTX4C_f9FjHYIneIOJ3cTh9UMh7FuKY/view?usp=sharing).
+My train-val-test split can be accessed [*here*](https://drive.google.com/file/d/1unTX4C_f9FjHYIneIOJ3cTh9UMh7FuKY/view?usp=sharing).
 
 ## Installation
 ```bash
