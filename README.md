@@ -61,7 +61,7 @@ weights: "resnet50_backbone_highest_miou.pth"
 
 ### Note: 
 - `id` is a unique identifier for each training run, which also happens to be its timestamp.
-- Three model model weights are saved per training run: 
+- Three model weights are saved per training run: 
     - The latest model.
     - The model with the lowest loss.
     - The model with the highest mIOU.
