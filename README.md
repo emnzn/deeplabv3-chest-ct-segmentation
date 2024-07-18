@@ -11,7 +11,7 @@
 | Validation Set | 2,506  |     ~15%     |
 | Test Set       | 2,507  |     ~15%     |
 
-Original data source: https://www.kaggle.com/datasets/polomarco/chest-ct-segmentation
+Original data source: *https://www.kaggle.com/datasets/polomarco/chest-ct-segmentation*
 
 My train-val-test split can be accessed [*here*](https://drive.google.com/file/d/1unTX4C_f9FjHYIneIOJ3cTh9UMh7FuKY/view?usp=sharing).
 
