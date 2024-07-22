@@ -33,7 +33,7 @@ An example config is shown below:
 ```yaml
 num_classes: 4
 epochs: 50
-batch_size: 100
+batch_size: 8
 
 backbone: "resnet50"
 learning_rate: 0.0001
