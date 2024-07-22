@@ -27,20 +27,17 @@ def get_network(backbone: str, num_classes: int) -> DeepLabV3:
 
     if backbone == "resnet50":
         model = deeplabv3_resnet50(weights=None, num_classes=num_classes)
-        model.backbone.conv1 = torch.nn.Conv2d(
-                1, 64, kernel_size=(7, 7), stride=(2, 2), 
-                padding=(3, 3), bias=False
-            )
 
     elif backbone == "resnet101":
         model = deeplabv3_resnet101(weights=None, num_classes=num_classes)
-        model.backbone.conv1 = torch.nn.Conv2d(
-                1, 64, kernel_size=(7, 7), stride=(2, 2), 
-                padding=(3, 3), bias=False
-            )
         
     else:
         raise ValueError("Backbone must be one of ['resnet50', 'resnet101']")
+    
+    model.backbone.conv1 = torch.nn.Conv2d(
+                1, 64, kernel_size=(7, 7), stride=(2, 2), 
+                padding=(3, 3), bias=False
+            )
     
     if torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
