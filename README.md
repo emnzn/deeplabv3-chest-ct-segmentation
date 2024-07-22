@@ -53,7 +53,7 @@ Example shorn below:
 
 ```yaml
 num_classes: 4
-batch_size: 100
+batch_size: 8
 backbone: "resnet50"
 id: "06-16-2024-12:00"
 weights: "resnet50_backbone_highest_miou.pth"
