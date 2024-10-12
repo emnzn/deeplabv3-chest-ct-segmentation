@@ -2,6 +2,6 @@
 *.pth
 *.ipynb
 *.parquet
-.DS_Store
+*/.DS_Store
 *__pycache__*
 data/**/*.jpg
